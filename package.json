@@ -1,0 +1,37 @@
+{
+  "name": "article-summarizer",
+  "version": "1.0.0",
+  "description": "A beautiful web app that uses Perplexity AI API to summarize articles from URLs",
+  "main": "index.html",
+  "scripts": {
+    "start": "python -m http.server 8000",
+    "serve": "npx http-server -p 8000",
+    "dev": "python -m http.server 8000"
+  },
+  "keywords": [
+    "perplexity",
+    "ai",
+    "summarizer",
+    "article",
+    "web-app",
+    "javascript",
+    "html",
+    "css"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/article-summarizer.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/article-summarizer/issues"
+  },
+  "homepage": "https://github.com/yourusername/article-summarizer#readme",
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  }
+} 

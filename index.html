@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Article Summarizer - Powered by Perplexity AI</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="logo">
+                <i class="fas fa-brain"></i>
+                <h1>Article Summarizer</h1>
+            </div>
+            <p class="subtitle">Powered by Perplexity AI</p>
+        </header>
+
+        <main class="main-content">
+            <div class="input-section">
+                <div class="input-tabs">
+                    <button class="tab-btn active" data-tab="url">
+                        <i class="fas fa-link"></i>
+                        URL
+                    </button>
+                    <button class="tab-btn" data-tab="file">
+                        <i class="fas fa-file-upload"></i>
+                        File Upload
+                    </button>
+                    <button class="tab-btn" data-tab="image">
+                        <i class="fas fa-image"></i>
+                        Image Analysis
+                    </button>
+                </div>
+
+                <div class="tab-content active" id="url-tab">
+                    <div class="url-input-container">
+                        <label for="articleUrl" class="input-label">
+                            <i class="fas fa-link"></i>
+                            Article URL
+                        </label>
+                        <div class="input-group">
+                            <input 
+                                type="url" 
+                                id="articleUrl" 
+                                placeholder="https://example.com/article..."
+                                class="url-input"
+                            >
+                            <button id="summarizeBtn" class="summarize-btn">
+                                <i class="fas fa-magic"></i>
+                                Summarize
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-content" id="file-tab">
+                    <div class="file-input-container">
+                        <label for="fileInput" class="input-label">
+                            <i class="fas fa-file-upload"></i>
+                            Upload File (Max 5MB)
+                        </label>
+                        <div class="file-upload-area" id="fileUploadArea">
+                            <input 
+                                type="file" 
+                                id="fileInput" 
+                                accept=".txt,.pdf,.doc,.docx,.md,.html,.htm"
+                                class="file-input"
+                            >
+                            <div class="file-upload-content">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                <p>Drag & drop a file here or click to browse</p>
+                                <small>Supported formats: TXT, PDF, DOC, DOCX, MD, HTML (Max 5MB)</small>
+                            </div>
+                        </div>
+                        <div class="file-info" id="fileInfo" style="display: none;">
+                            <div class="file-details">
+                                <i class="fas fa-file"></i>
+                                <span id="fileName"></span>
+                                <span id="fileSize"></span>
+                            </div>
+                            <button id="removeFile" class="remove-file-btn">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                        <button id="summarizeFileBtn" class="summarize-btn" style="display: none;">
+                            <i class="fas fa-magic"></i>
+                            Summarize File
+                        </button>
+                    </div>
+                </div>
+
+                <div class="tab-content" id="image-tab">
+                    <div class="image-input-container">
+                        <label for="imageInput" class="input-label">
+                            <i class="fas fa-image"></i>
+                            Upload Image (Max 10MB)
+                        </label>
+                        <div class="image-upload-area" id="imageUploadArea">
+                            <input 
+                                type="file" 
+                                id="imageInput" 
+                                accept="image/*"
+                                class="image-input"
+                            >
+                            <div class="image-upload-content">
+                                <i class="fas fa-camera"></i>
+                                <p>Drag & drop an image here or click to browse</p>
+                                <small>Supported formats: JPG, PNG, GIF, WebP (Max 10MB)</small>
+                            </div>
+                        </div>
+                        <div class="image-preview" id="imagePreview" style="display: none;">
+                            <div class="preview-container">
+                                <img id="previewImg" alt="Image preview">
+                                <div class="image-details">
+                                    <span id="imageName"></span>
+                                    <span id="imageSize"></span>
+                                </div>
+                            </div>
+                            <button id="removeImage" class="remove-image-btn">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                        <div class="analysis-options">
+                            <label class="input-label">
+                                <i class="fas fa-cog"></i>
+                                Analysis Type
+                            </label>
+                            <select id="analysisType" class="analysis-select">
+                                <option value="describe">Describe Image</option>
+                                <option value="extract_text">Extract Text (OCR)</option>
+                                <option value="analyze_content">Analyze Content</option>
+                                <option value="identify_objects">Identify Objects</option>
+                            </select>
+                        </div>
+                        <button id="analyzeImageBtn" class="summarize-btn" style="display: none;">
+                            <i class="fas fa-eye"></i>
+                            Analyze Image
+                        </button>
+                    </div>
+                </div>
+
+                <div class="api-key-section" id="apiKeySection">
+                    <label for="apiKey" class="input-label">
+                        <i class="fas fa-key"></i>
+                        Perplexity API Key
+                    </label>
+                    <input 
+                        type="password" 
+                        id="apiKey" 
+                        placeholder="Enter your Perplexity API key..."
+                        class="api-key-input"
+                    >
+                    <small class="help-text">
+                        <i class="fas fa-info-circle"></i>
+                        Get your API key from <a href="https://www.perplexity.ai/settings/api" target="_blank">Perplexity AI</a>
+                    </small>
+                </div>
+            </div>
+
+            <div class="loading-section" id="loadingSection" style="display: none;">
+                <div class="loading-spinner">
+                    <div class="spinner"></div>
+                </div>
+                <p class="loading-text" id="loadingText">Analyzing article and generating summary...</p>
+            </div>
+
+            <div class="result-section" id="resultSection" style="display: none;">
+                <div class="result-header">
+                    <h2><i class="fas fa-file-alt"></i> Article Summary</h2>
+                    <button id="copyBtn" class="copy-btn" title="Copy to clipboard">
+                        <i class="fas fa-copy"></i>
+                    </button>
+                </div>
+                <div class="summary-content" id="summaryContent">
+                    <!-- Summary will be inserted here -->
+                </div>
+                <div class="article-info" id="articleInfo">
+                    <!-- Article metadata will be inserted here -->
+                </div>
+            </div>
+
+            <div class="error-section" id="errorSection" style="display: none;">
+                <div class="error-content">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <h3>Error</h3>
+                    <p id="errorMessage"></p>
+                </div>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <div class="footer-content">
+                <button id="preferencesBtn" class="preferences-btn" title="API Key Settings">
+                    <i class="fas fa-cog"></i>
+                </button>
+                <a href="https://github.com/hrishikeshp7" target="_blank" class="github-link">
+                    <i class="fab fa-github"></i>
+                    hrishikeshp7
+                </a>
+                <button id="themeToggleBtn" class="theme-toggle-btn" title="Toggle Dark Mode">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html> 
