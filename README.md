@@ -14,7 +14,7 @@ A modern web application that uses Perplexity AI to summarize articles, analyze 
 
 ## 🚀 Live Demo
 
-[View Live Demo](https://hrishikeshp7.github.io/article-summarizer) (Coming Soon)
+[View Live Demo](https://ai-summariser.hpd47.xyz) 
 
 ## 🛠️ Technologies Used
 
