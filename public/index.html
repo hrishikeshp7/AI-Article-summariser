@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Article Summarizer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Article Summarizer</h1>
+            <p class="subtitle">Powered by Perplexity AI</p>
+        </header>
+
+        <div class="main-content">
+            <div class="tab-container">
+                <button class="tab-btn active" data-tab="url">URL</button>
+                <button class="tab-btn" data-tab="file">File Upload</button>
+                <button class="tab-btn" data-tab="image">Image Analysis</button>
+            </div>
+
+            <div class="tab-content active" id="url-tab">
+                <input type="url" id="article-url" class="url-input" placeholder="Enter article URL">
+                <button id="summarize-btn" class="summarize-btn">Summarize</button>
+            </div>
+
+            <div class="tab-content" id="file-tab">
+                <div class="file-upload-container" id="file-drop-zone">
+                    <i class="fas fa-file-upload"></i>
+                    <p>Drag & drop your file here or click to browse</p>
+                    <input type="file" id="file-input" accept=".txt,.doc,.docx,.pdf,.md" hidden>
+                </div>
+                <button id="summarize-file-btn" class="summarize-btn">Summarize File</button>
+            </div>
+
+            <div class="tab-content" id="image-tab">
+                <div class="file-upload-container" id="image-drop-zone">
+                    <i class="fas fa-image"></i>
+                    <p>Drag & drop your image here or click to browse</p>
+                    <input type="file" id="image-input" accept="image/*" hidden>
+                </div>
+                <select id="analysis-type" class="analysis-select">
+                    <option value="describe">Describe Image</option>
+                    <option value="extract">Extract Text (OCR)</option>
+                    <option value="analyze">Analyze Content</option>
+                    <option value="identify">Identify Objects</option>
+                </select>
+                <button id="analyze-image-btn" class="summarize-btn">Analyze Image</button>
+            </div>
+
+            <div id="loading" class="loading hidden">
+                <div class="spinner"></div>
+                <p id="loading-text">Processing...</p>
+            </div>
+
+            <div id="result" class="result hidden">
+                <h3>Summary</h3>
+                <div id="summary-text"></div>
+                <button id="copy-btn" class="copy-btn">
+                    <i class="fas fa-copy"></i> Copy
+                </button>
+            </div>
+        </div>
+
+        <footer class="footer">
+            <div class="footer-content">
+                <a href="https://github.com/hrishikeshp7" target="_blank" class="github-link">
+                    <i class="fab fa-github"></i>
+                    hrishikeshp7
+                </a>
+                <button id="themeToggleBtn" class="theme-toggle-btn" title="Toggle Dark Mode">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html> 

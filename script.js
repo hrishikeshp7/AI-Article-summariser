@@ -863,3 +863,76 @@ function updateThemeIcon(theme) {
 
 // Show tips when page loads
 document.addEventListener('DOMContentLoaded', showTips); 
+
+// Get stored API key or use default
+function getApiKey() {
+    const storedKey = localStorage.getItem('perplexity_api_key');
+    return storedKey || config.defaultApiKey;
+}
+
+// Update API key in local storage
+function updateApiKey(newKey) {
+    if (newKey && newKey.trim()) {
+        localStorage.setItem('perplexity_api_key', newKey.trim());
+    }
+}
+
+// Initialize API key on page load
+document.addEventListener('DOMContentLoaded', function() {
+    const storedKey = localStorage.getItem('perplexity_api_key');
+    if (!storedKey && config.defaultApiKey !== 'YOUR_API_KEY_HERE') {
+        // If there's no stored key but we have a default key, use it
+        updateApiKey(config.defaultApiKey);
+    }
+});
+
+// Update the API request function to use the current API key
+async function makeApiRequest(prompt, type = 'article') {
+    const apiKey = getApiKey();
+    
+    if (!apiKey || apiKey === 'YOUR_API_KEY_HERE') {
+        throw new Error('Please set up your API key in the preferences');
+    }
+
+    const response = await fetch(config.apiEndpoint, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${apiKey}`
+        },
+        body: JSON.stringify({
+            model: config.model,
+            messages: [{ role: 'user', content: prompt }],
+            max_tokens: config.maxTokens,
+            temperature: config.temperature
+        })
+    });
+
+    if (!response.ok) {
+        if (response.status === 401) {
+            throw new Error('Invalid API key. Please check your API key in preferences.');
+        }
+        throw new Error('Failed to get response from API');
+    }
+
+    return await response.json();
+}
+
+// Update the preferences button click handler
+document.getElementById('preferencesBtn').addEventListener('click', function() {
+    const currentKey = getApiKey();
+    const newKey = prompt('Enter your Perplexity API key:', currentKey === config.defaultApiKey ? '' : currentKey);
+    
+    if (newKey === null) return; // User clicked Cancel
+    
+    if (newKey.trim()) {
+        updateApiKey(newKey);
+        alert('API key updated successfully!');
+    } else if (config.defaultApiKey !== 'YOUR_API_KEY_HERE') {
+        // If they enter an empty string and we have a default key, revert to default
+        localStorage.removeItem('perplexity_api_key');
+        alert('Reverted to default API key');
+    } else {
+        alert('Please enter a valid API key');
+    }
+}); 
